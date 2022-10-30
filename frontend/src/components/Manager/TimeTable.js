@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ViewRoutes from "./Sub-Components/ViewRoutes";
 
 
 //navigate to login when logout
@@ -10,6 +11,8 @@ const TimeTable = ({ children }) => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate()
   const [routes,setRoutes]=useState([])
+  const [viewWin,setViewWin]=useState(false)
+  const [id,setID]=useState([])
 
   const getAllroutes = async () => {
     const res = await axios.get('http://localhost:5000/api/v1/route/getroutes')
@@ -31,6 +34,11 @@ const TimeTable = ({ children }) => {
     getAllroutes()
   }
 
+  const viewRoute = async (route) => {
+    
+    setID(route)
+    setViewWin(true)
+  }
   useEffect(() => {
     getAllroutes()
   }, [])
@@ -38,7 +46,8 @@ const TimeTable = ({ children }) => {
   return (
     <>
       <h1 className="text-xl pl-4 pt-4">Manage Time Tables</h1>
-      <div className="w-full pl-4 pt-4 pr-4">
+      {viewWin===false && (
+        <div className="w-full pl-4 pt-4 pr-4">
         {/* search and add */}
         <div className="flex w-full">
           <div className="w-1/4">
@@ -140,7 +149,7 @@ const TimeTable = ({ children }) => {
                   scope="row"
                   class="py-4 px-6 font-medium text-[#414141] whitespace-nowrap"
                 >
-                  {route.Routename}
+                 <button onClick={(e)=>{viewRoute(route)}} className="hover:text-[#2e6aff] hover:underline"> {route.Routename} </button>
                 </th>
                 <th
                   scope="row"
@@ -187,6 +196,11 @@ const TimeTable = ({ children }) => {
           </table>
         </div>
       </div>
+      )}
+      {viewWin===true && (
+        <ViewRoutes id={id} setViewWin={setViewWin}/>
+      )}
+      
     </>
   );
 };
