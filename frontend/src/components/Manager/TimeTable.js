@@ -2,6 +2,7 @@ import React ,{useEffect,useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 //navigate to login when logout
@@ -10,14 +11,28 @@ const TimeTable = ({ children }) => {
   const navigate = useNavigate()
   const [routes,setRoutes]=useState([])
 
-  const getAllUser = async () => {
+  const getAllroutes = async () => {
     const res = await axios.get('http://localhost:5000/api/v1/route/getroutes')
     console.log(res.data.routes)
     setRoutes(res.data.routes)
   }
 
+  const delroute = async (id) => {
+    console.log('res',id)
+    try {
+      const res = await axios.post('http://localhost:5000/api/v1/route/delroute',{
+        "id":id
+      }) 
+      console.log('res',res)
+      toast.success("deleted");
+    } catch (error) {
+      toast.error("error del");
+    }
+    getAllroutes()
+  }
+
   useEffect(() => {
-    getAllUser()
+    getAllroutes()
   }, [])
 
   return (
@@ -162,8 +177,8 @@ const TimeTable = ({ children }) => {
                   class="py-4 px-6 font-medium text-[#414141] whitespace-nowrap"
                 >
                   <div className="flex">
-                    <div><button class="text-white   bg-[#5d8e62] hover:bg-[#379540] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-2 py-1 ">Update</button></div>
-                    <div className="pl-4"><button class="text-white   bg-[#8e5d5d] hover:bg-[#953737] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-2 py-1 ">Delete</button></div>
+                    {/* <div><button  class="text-white   bg-[#5d8e62] hover:bg-[#379540] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-2 py-1 ">Update</button></div> */}
+                    <div className="pl-4"><button onClick={()=>{delroute(route._id)}} class="text-white   bg-[#8e5d5d] hover:bg-[#953737] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-2 py-1 ">Delete</button></div>
                   </div>
                 </th>
               </tr>
