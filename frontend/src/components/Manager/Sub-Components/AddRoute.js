@@ -359,9 +359,9 @@ const AddRoute = ({ children }) => {
                         <th scope="col" class="py-3 px-6">
                           Arival time
                         </th>
-                        <th scope="col" class="py-3 px-6">
+                        {/* <th scope="col" class="py-3 px-6">
                           Remove
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     {stopData.map((stop) => (
@@ -373,7 +373,7 @@ const AddRoute = ({ children }) => {
                           <td class="py-4 px-6">
                             {moment(stop.stopTime, "HH:mm").format("hh:mm A")}
                           </td>
-                          <td class="py-4 px-6">Remove</td>
+                          {/* <td class="py-4 px-6">Remove</td> */}
                         </tr>
                       </tbody>
                     ))}
