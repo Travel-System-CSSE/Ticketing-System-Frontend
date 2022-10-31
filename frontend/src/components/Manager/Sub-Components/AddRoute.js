@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import NavBar from "../../NavBar";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-import { toast } from "react-toastify";
 import moment from "moment";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { avgbusspeed } from "../../../constants";
+import NavBar from "../../NavBar";
 
-//navigate to login when logout
 const AddRoute = ({ children }) => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -21,12 +19,12 @@ const AddRoute = ({ children }) => {
   const [stopname, setStopname] = useState("");
   const [stopTime, setStopTime] = useState("");
 
-  //dsialed
+  //disabled states
   const [disable, setDisable] = useState(false);
 
   const AddRoute = async () => {
-    console.log("user",user.user.name)
-    
+    console.log("user", user.user.name);
+
     if (!rname) {
       toast.error("enter a Route Name");
       return;
@@ -49,45 +47,42 @@ const AddRoute = ({ children }) => {
     }
     var endtime = stopData.map((rank, i, row) => {
       if (i + 1 === stopData.length) {
-        console.log("rank",rank.stopTime)
-        return rank.stopTime
+        console.log("rank", rank.stopTime);
+        return rank.stopTime;
       }
     });
-    
-    const finalstoptime=endtime[endtime.length-1]  
-    
+
+    const finalstoptime = endtime[endtime.length - 1];
 
     var a = moment(finalstoptime, "HH:mm");
     var b = moment(startTime, "HH:mm");
-    console.log('b',b)
+    console.log("b", b);
     //get diference in minutes
     const timediff = a.diff(b, "minutes");
     a.diff(b, "minutes", true);
     //distance from start point
     const distance = Math.ceil((timediff / 60) * avgbusspeed);
-    console.log('distance',distance)
+    console.log("distance", distance);
     try {
-       const response = await axios.post(
-      "http://localhost:5000/api/v1/route/addroute",
-      {
-        "Routename": rname,
-        "bus": bus,
-        "startpoint": startPoint,
-        "stops": stopData,
-        "starttime": startTime,
-        "endtime": finalstoptime,
-        "totdistance": distance,
-        "addedby":user.user.name
-      }
-    );
-    await toast.success("added successfully");
-    navigate("/ManagerDashboard");
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/route/addroute",
+        {
+          Routename: rname,
+          bus: bus,
+          startpoint: startPoint,
+          stops: stopData,
+          starttime: startTime,
+          endtime: finalstoptime,
+          totdistance: distance,
+          addedby: user.user.name,
+        }
+      );
+      await toast.success("added successfully");
+      navigate("/ManagerDashboard");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(error.response.data.msg);
     }
-   
-    
   };
 
   //validation

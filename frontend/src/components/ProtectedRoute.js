@@ -1,6 +1,6 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom'
 
 //navigate to login when logout
 const ProtectedRoute = ({ children }) => {

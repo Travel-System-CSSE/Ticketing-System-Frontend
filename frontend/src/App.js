@@ -1,10 +1,10 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { ToastContainer } from 'react-toastify'
-import Login from "./pages/Login";
+import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import AddRoute from "./components/Manager/Sub-Components/AddRoute";
-import ManagerDashboard from "./pages/ManagerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
+import ManagerDashboard from "./pages/ManagerDashboard";
 
 const App = () => {
   return (
