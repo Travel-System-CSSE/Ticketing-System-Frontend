@@ -1,10 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import Logo from '../../src/assets/logo.png'
-import { useSelector, useDispatch } from "react-redux";
-import { reset } from "../features/authSlice";
-import { logout } from "../features/authSlice";
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from '../../src/assets/logo.png';
+import { logout, reset } from "../features/authSlice";
 
 //navigate to login when logout
 const NavBar = () => {

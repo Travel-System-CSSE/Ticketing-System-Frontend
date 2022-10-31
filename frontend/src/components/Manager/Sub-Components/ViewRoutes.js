@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import { toast } from "react-toastify";
 import moment from "moment";
+import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 //navigate to login when logout
 const ViewRoutes = ({ id, setViewWin }) => {
