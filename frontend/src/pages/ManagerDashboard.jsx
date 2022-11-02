@@ -5,6 +5,8 @@ import NavBar from "../components/NavBar";
 import BGImage from '../assets/bg.png'
 import { useState } from "react";
 import TimeTable from "../components/Manager/TimeTable"
+import axios from "axios";
+import generatePDF from "../utils/report";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -12,7 +14,12 @@ const Dashboard = () => {
 
   const { user } = useSelector((state) => state.auth);
   const [menueopt, setMenueopt] = useState('TIMETABLES')
-
+  //generate report
+  const genReport = async () => {
+    const res = await axios.get("http://localhost:5000/api/v1/route/report");
+    
+    generatePDF(res.data.report,res.data.totalUsers,user.user.name)
+  };
   //if status is false user has not set account therfore load user info component
 
   return (
@@ -28,7 +35,7 @@ const Dashboard = () => {
             <button className="w-76 text-2xl" onClick={() => { setMenueopt("FINANCES") }}>FINANCES</button>
             <button className="w-76 text-2xl" onClick={() => { setMenueopt("EMPLOYEES") }}>EMPLOYEES</button>
             <button className="w-76 text-2xl" onClick={() => { setMenueopt("PASSENGERS") }}>PASSENGERS</button>
-            <button className="w-76 text-xl" onClick={() => { setMenueopt("REPORTS") }}>REPORTS</button>
+            <button className="w-76 text-xl" onClick={genReport}>REPORTS</button>
 
           </div>
         </div>
@@ -40,10 +47,9 @@ const Dashboard = () => {
           )}
           {menueopt === 'TIMETABLES' && (
             <>
-              <TimeTable/>
+              <TimeTable />
             </>
           )}
-
         </div>
       </div>
     </>
